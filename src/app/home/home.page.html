@@ -1,20 +1,60 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header translucent="true">
+  <ion-toolbar color="blue">
+    <ion-title> Tracking </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding" color="medium">
+  <ion-card class="ion-padding" color="pale">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button
+            expand="block"
+            fill="solid"
+            color="red"
+            (click)="showMap()"
+            >Start</ion-button
+          >
+        </ion-col>
+        <ion-col>
+          <ion-button color="blue" expand="block" [disabled]="isDisabled" (click)="startTracking()">Track</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    @if(isMapVisible){
+
+    <div id="map"></div>
+
+    <ion-card class="ion-padding" style="margin: 0px">
+      @if(latlng.lat === 0){
+      <ion-label color="orange">Loading...</ion-label>
+      }@else{
+      <ion-label color="orange"
+        >Latitude: {{latlng.lat}} <br />
+        Longitude: {{latlng.lng}}</ion-label
+      >
+      <br /><br />
+      <ion-label>{{display_name()}}</ion-label>
+
+      }
+    </ion-card>
+    }
+
+    <ion-alert
+      header="Geolocation API Error"
+      message="Unable to fetch current location"
+      [isOpen]="isAlertOpen"
+      (didDismiss)="setOpen(false)"
+      [buttons]="alertButtons"
+    ></ion-alert>
+  </ion-card>
 </ion-content>
+<ion-footer>
+  <ion-toolbar color="blue">
+    <ion-title style="font-size: .8rem;">Status: <ion-label color="orange">{{trackingIndicator}}</ion-label> <br>
+    Distance: <ion-label color="orange">{{distanceFromStart()}}m</ion-label>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

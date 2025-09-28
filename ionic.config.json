@@ -1,5 +1,7 @@
 {
   "name": "watchPosition",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular-standalone"
 }
